@@ -14,23 +14,13 @@ function json_parse_errors(json){
   return errors;
 }
 
-function json_get_paths(json, paths){
+function json_get_path(json, path) {
   const errors = [];
   const root = jsonc.parseTree(json, errors);
   if (errors.length > 0) {
     throw new Error("Internal error. Expected no parse errors.");
   }
 
-  const values = {};
-
-  for (path of paths) {
-    values[path.join(".")] = json_get_path(root, path);
-  }
-
-  return values;
-}
-
-function json_get_path(root, path) {
   const node = jsonc.findNodeAtLocation(root, path);
 
   if (node) {
@@ -55,15 +45,14 @@ function json_get_node_value(node) {
   if (type == "string") {
     return node.value;
   }
-  if (type == "property") {
-    // TODO
-    return "property";
-  }
   if (type == "array") {
     return json_get_node_value_array(node)
   }
   if (type == "object") {
     return json_get_node_value_object(node)
+  }
+  if (type == "property") {
+    throw new Error("Properties should only appear within objects.");
   }
 
   throw new Error("Unexpected `Node` type.");
@@ -80,5 +69,21 @@ function json_get_node_value_array(node) {
 }
 
 function json_get_node_value_object(node) {
+  const values = {};
 
+  for (child of node.children) {
+    if (child.type != "property") {
+      throw new Error("Every object child should be a property.");
+    }
+    const key = child.children[0];
+    const value = child.children[1];
+
+    if (key.type != "string") {
+      throw new Error("Every property's first child should be a string.");
+    }
+
+    values[key.value] = json_get_node_value(value);
+  }
+
+  return values;
 }
