@@ -21,10 +21,10 @@ function json_get_paths(json, paths){
     throw new Error("Internal error. Expected no parse errors.");
   }
 
-  const values = [];
+  const values = {};
 
   for (path of paths) {
-    values.push(json_get_path(root, path));
+    values[path.join(".")] = json_get_path(root, path);
   }
 
   return values;

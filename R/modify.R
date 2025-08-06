@@ -99,7 +99,7 @@ json_get_paths <- function(text, paths) {
     # list(c("x", "y")) -> list(list("x", "y"))
     paths <- lapply(paths, as.list)
   }
-  jsonc$call("json_get_paths", text, paths)
+  unname(jsonc$call("json_get_paths", text, paths))
 }
 
 json_parse_errors <- function(text) {
