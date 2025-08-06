@@ -7,9 +7,21 @@
 \alias{json_format_file}
 \title{Modify a JSON file or string}
 \usage{
-json_modify_text(text, json_path, value, spaces = 4)
+json_modify_text(
+  text,
+  json_path,
+  value,
+  spaces = 4,
+  is_array_insertion = FALSE
+)
 
-json_modify_file(file, json_path, value, spaces = 4)
+json_modify_file(
+  file,
+  json_path,
+  value,
+  spaces = 4,
+  is_array_insertion = FALSE
+)
 
 json_format_text(text, spaces = 4)
 
@@ -24,6 +36,9 @@ json_format_file(file, spaces = 4)
 Use `NULL` to delete the field.}
 
 \item{spaces}{number of spaces to indent. Use 0 for tabs.}
+
+\item{is_array_insertion}{whether to treat the modification as an insertion
+into an array or not. Has no effect when `json_path` doesn't target an array.}
 
 \item{file}{path to file on disk. Will be created if it does not exist.}
 }
@@ -41,4 +56,5 @@ json_modify_file('test.json', 'title', "This is a test")
 json_modify_file('test.json', c("foo", "bar"), 1:3)
 json_modify_file('test.json', c("foo", "baz"), TRUE)
 json_modify_file('test.json', list("foo", "bar", 1), 9999)
+json_modify_file('test.json', list("foo", "bar", 1), 9998, is_array_insertion = TRUE)
 }
