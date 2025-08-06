@@ -40,7 +40,7 @@ Use `NULL` to delete the field.}
 \item{is_array_insertion}{whether to treat the modification as an insertion
 into an array or not. Has no effect when `json_path` doesn't target an array.}
 
-\item{file}{path to file on disk. Will be created if it does not exist.}
+\item{file}{path to file on disk. File must exist.}
 }
 \description{
 Set or delete fields in a JSON file or string while retaining comments

@@ -49,7 +49,7 @@ json_modify_text <- function(
 
 #' @export
 #' @rdname jsonedit
-#' @param file path to file on disk. Will be created if it does not exist.
+#' @param file path to file on disk. File must exist.
 json_modify_file <- function(
   file,
   json_path,
@@ -57,11 +57,7 @@ json_modify_file <- function(
   spaces = 4,
   is_array_insertion = FALSE
 ) {
-  text <- if (file.exists(file)) {
-    rawToChar(readBin(file, raw(), file.info(file)$size))
-  } else {
-    "{}"
-  }
+  text <- read_file(file)
   out <- json_modify_text(text, json_path, value, spaces, is_array_insertion)
   writeLines(out, file)
 }
@@ -82,9 +78,51 @@ json_format_text <- function(text, spaces = 4) {
 #' @export
 #' @rdname jsonedit
 json_format_file <- function(file, spaces = 4) {
-  text <- rawToChar(readBin(file, raw(), file.info(file)$size))
+  text <- read_file(file)
   out <- json_format_text(text, spaces)
   writeLines(out, file)
+}
+
+json_file_get_path <- function(file, path) {
+  text <- read_file(file)
+  json_text_get_path(text, path)
+}
+
+json_text_get_path <- function(text, path) {
+  if (is.character(path)) {
+    # `c("x", "y")` -> `list("x", "y")`
+    path <- as.list(path)
+  }
+  stopifnot(is.list(path))
+  paths <- list(path)
+  json_text_get_paths(text, paths)[[1L]]
+}
+
+json_file_get_paths <- function(file, paths) {
+  text <- read_file(file)
+  json_text_get_paths(text, paths)
+}
+
+json_text_get_paths <- function(text, paths) {
+  stopifnot(is.list(paths))
+  lapply(paths, function(path) {
+    # list(c("x", "y")) -> list(list("x", "y"))
+    if (is.character(path)) {
+      path <- as.list(path)
+    }
+    stopifnot(is.list(path))
+  })
+
+  if (!is.null(json_parse_errors(text))) {
+    stop("Can't modify when there are existing parse errors.")
+  }
+
+  # This does parse the `text` for each path, but jsonlite
+  # simplification gets in the way a bit otherwise (#3),
+  # we can revisit if we care about performance later on
+  lapply(paths, function(path) {
+    jsonc$call("json_get_path", text, path)
+  })
 }
 
 json_parse_errors <- function(text) {
@@ -95,6 +133,13 @@ json_parse_errors <- function(text) {
     out <- NULL
   }
   out
+}
+
+read_file <- function(file) {
+  if (!file.exists(file)) {
+    stop("`file` doesn't exist.")
+  }
+  rawToChar(readBin(file, raw(), file.info(file)$size))
 }
 
 #' @importFrom V8 v8 JS
