@@ -1,6 +1,7 @@
 # jsonedit
 
-Modify or format JSON file while retaining comments and whitespace.
+R bindings to [node-jsonc-parser](https://github.com/microsoft/node-jsonc-parser)
+to modify or format JSON files while retaining comments and whitespace.
 
 ## Example
 
