@@ -9,6 +9,8 @@
 #' @param json_path character vector or list specifies which element to modify.
 #' @param value new value. Wrap in [V8::JS()] to specify literal JavaScript value.
 #' Use `NULL` to delete the field.
+#' @param is_array_insertion whether to treat the modification as an insertion
+#' into an array or not. Has no effect when `json_path` doesn't target an array.
 #' @examples
 #' # update field on existing settings.json
 #' json_modify_file('settings.json', c('[r]', 'editor.formatOnSave'), TRUE)
@@ -19,14 +21,25 @@
 #' json_modify_file('test.json', c("foo", "bar"), 1:3)
 #' json_modify_file('test.json', c("foo", "baz"), TRUE)
 #' json_modify_file('test.json', list("foo", "bar", 1), 9999)
-json_modify_text <- function(text, json_path, value, spaces = 4) {
+#' json_modify_file('test.json', list("foo", "bar", 1), 9998, is_array_insertion = TRUE)
+json_modify_text <- function(
+  text,
+  json_path,
+  value,
+  spaces = 4,
+  is_array_insertion = FALSE
+) {
   stopifnot(is.character(text))
   text <- paste(text, collapse = '\n')
   if (is.null(value)) {
     value <- V8::JS('undefined')
   }
-  opts <- if (length(spaces)) {
-    list(formattingOptions = list(insertSpaces = spaces > 0, tabSize = spaces))
+  opts <- list(isArrayInsertion = is_array_insertion)
+  if (length(spaces)) {
+    opts[["formattingOptions"]] <- list(
+      insertSpaces = spaces > 0,
+      tabSize = spaces
+    )
   }
   if (!is.null(json_parse_errors(text))) {
     stop("Can't modify when there are existing parse errors.")
@@ -37,13 +50,19 @@ json_modify_text <- function(text, json_path, value, spaces = 4) {
 #' @export
 #' @rdname jsonedit
 #' @param file path to file on disk. Will be created if it does not exist.
-json_modify_file <- function(file, json_path, value, spaces = 4) {
+json_modify_file <- function(
+  file,
+  json_path,
+  value,
+  spaces = 4,
+  is_array_insertion = FALSE
+) {
   text <- if (file.exists(file)) {
     rawToChar(readBin(file, raw(), file.info(file)$size))
   } else {
     "{}"
   }
-  out <- json_modify_text(text, json_path, value, spaces)
+  out <- json_modify_text(text, json_path, value, spaces, is_array_insertion)
   writeLines(out, file)
 }
 
