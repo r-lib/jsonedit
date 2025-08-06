@@ -1,0 +1,12 @@
+Package: jsonedit
+Type: Package
+Title: Whitespace Preserving JSON Editor
+Version: 0.1.0
+Authors@R: person("Jeroen", "Ooms", email = "jeroenooms@gmail.com",
+  role = c("aut", "cre"))
+Description: Bindings to `jsonc` to modify or format JSON files while retaining 
+  comments and whitespace.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports: V8
+RoxygenNote: 7.3.2

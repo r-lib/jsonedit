@@ -1,0 +1,68 @@
+#' Modify a JSON file or string
+#'
+#' Set or delete fields in a JSON file or string while retaining comments
+#' and whitespace.
+#'
+#' @export
+#' @rdname jsonedit
+#' @param text string with json
+#' @param json_path character vector or list specifies which element to modify.
+#' @param value new value. Wrap in [V8::JS()] to specify literal JavaScript value.
+#' Use `NULL` to delete the field.
+#' @examples
+#' # update field on existing settings.json
+#' json_modify_file('settings.json', c('[r]', 'editor.formatOnSave'), TRUE)
+#'
+#' # some example operationgs
+#' unlink('test.json')
+#' json_modify_file('test.json', 'title', "This is a test")
+#' json_modify_file('test.json', c("foo", "bar"), 1:3)
+#' json_modify_file('test.json', c("foo", "baz"), TRUE)
+#' json_modify_file('test.json', list("foo", "bar", 1), 9999)
+json_modify_text <- function(text, json_path, value, spaces = 4) {
+  stopifnot(is.character(text))
+  text <- paste(text, collapse = '\n')
+  if (is.null(value)) value <- V8::JS('undefined')
+  opts <- if (length(spaces)) {
+    list(formattingOptions = list(insertSpaces = spaces > 0, tabSize = spaces))
+  }
+  jsonc$call('json_modify', text, as.list(json_path), value, opts)
+}
+
+#' @export
+#' @rdname jsonedit
+#' @param file path to file on disk. Will be created if it does not exist.
+json_modify_file <- function(file, json_path, value, spaces = 4) {
+  json <- if (file.exists(file)) {
+    rawToChar(readBin(file, raw(), file.info(file)$size))
+  } else {
+    "{}"
+  }
+  out <- json_modify_text(json, json_path, value, spaces)
+  writeLines(out, file)
+}
+
+#' @export
+#' @rdname jsonedit
+#' @param spaces number of spaces to indent. Use 0 for tabs.
+json_format_text <- function(text, spaces = 4) {
+  stopifnot(is.character(json))
+  json <- paste(json, collapse = '\n')
+  opts <- list(insertSpaces = spaces > 0, tabSize = spaces)
+  jsonc$call('json_format', json, opts)
+}
+
+#' @export
+#' @rdname jsonedit
+json_format_file <- function(file, spaces = 4) {
+  json <- rawToChar(readBin(file, raw(), file.info(file)$size))
+  out <- json_format_text(json, spaces)
+  writeLines(out, file)
+}
+
+#' @importFrom V8 v8 JS
+.onLoad <- function(lib, pkg) {
+  assign("jsonc", V8::v8(), environment(.onLoad))
+  jsonc$source(system.file("js/jsonc.js", package = pkg))
+  jsonc$source(system.file("js/bindings.js", package = pkg))
+}
