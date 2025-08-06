@@ -87,6 +87,21 @@ json_format_file <- function(file, spaces = 4) {
   writeLines(out, file)
 }
 
+json_get_paths <- function(text, paths) {
+  if (!is.null(json_parse_errors(text))) {
+    stop("Can't modify when there are existing parse errors.")
+  }
+  if (is.character(paths)) {
+    # c("x", "y") -> list(list("x", "y"))
+    paths <- list(as.list(paths))
+  }
+  if (is.list(paths)) {
+    # list(c("x", "y")) -> list(list("x", "y"))
+    paths <- lapply(paths, as.list)
+  }
+  jsonc$call("json_get_paths", text, paths)
+}
+
 json_parse_errors <- function(text) {
   stopifnot(is.character(text), length(text) == 1L)
   out <- jsonc$call("json_parse_errors", text)
