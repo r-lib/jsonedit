@@ -1,22 +1,22 @@
-function json_modify(json, path, value, opts){
-  var edit_result = jsonc.modify(json, path, value, opts);
-  return jsonc.applyEdits(json, edit_result);
+function ffi_text_modify(text, path, value, modification_options){
+  var edit_result = jsonc.modify(text, path, value, modification_options);
+  return jsonc.applyEdits(text, edit_result);
 }
 
-function json_format(json, opts){
-  var edit_result = jsonc.format(json, undefined, opts);
-  return jsonc.applyEdits(json, edit_result);
+function ffi_text_format(text, formatting_options){
+  var edit_result = jsonc.format(text, undefined, formatting_options);
+  return jsonc.applyEdits(text, edit_result);
 }
 
-function json_parse_errors(json){
+function ffi_parse_errors(text, parse_options){
   const errors = [];
-  jsonc.parseTree(json, errors);
+  jsonc.parseTree(text, errors, parse_options);
   return errors;
 }
 
-function json_get_path(json, path) {
+function ffi_text_paths(json, path, parse_options) {
   const errors = [];
-  const root = jsonc.parseTree(json, errors);
+  const root = jsonc.parseTree(json, errors, parse_options);
   if (errors.length > 0) {
     throw new Error("Internal error. Expected no parse errors.");
   }
@@ -24,13 +24,13 @@ function json_get_path(json, path) {
   const node = jsonc.findNodeAtLocation(root, path);
 
   if (node) {
-    return json_get_node_value(node);
+    return get_node_value(node);
   } else {
     return undefined;
   }
 }
 
-function json_get_node_value(node) {
+function get_node_value(node) {
   const type = node.type;
 
   if (type == "null") {
@@ -46,10 +46,10 @@ function json_get_node_value(node) {
     return node.value;
   }
   if (type == "array") {
-    return json_get_node_value_array(node)
+    return get_array_value(node)
   }
   if (type == "object") {
-    return json_get_node_value_object(node)
+    return get_object_value(node)
   }
   if (type == "property") {
     throw new Error("Properties should only appear within objects.");
@@ -58,17 +58,17 @@ function json_get_node_value(node) {
   throw new Error("Unexpected `Node` type.");
 }
 
-function json_get_node_value_array(node) {
+function get_array_value(node) {
   const values = [];
 
   for (child of node.children) {
-    values.push(json_get_node_value(child))
+    values.push(get_node_value(child))
   }
 
   return values;
 }
 
-function json_get_node_value_object(node) {
+function get_object_value(node) {
   const values = {};
 
   for (child of node.children) {
@@ -82,7 +82,7 @@ function json_get_node_value_object(node) {
       throw new Error("Every property's first child should be a string.");
     }
 
-    values[key.value] = json_get_node_value(value);
+    values[key.value] = get_node_value(value);
   }
 
   return values;

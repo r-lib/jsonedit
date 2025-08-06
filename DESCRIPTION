@@ -8,5 +8,8 @@ Description: Bindings to `node-jsonc-parser` to modify or format JSON files whil
   retaining comments and whitespace.
 License: MIT + file LICENSE
 Encoding: UTF-8
-Imports: V8
+Imports:
+    cli,
+    rlang (>= 1.1.0),
+    V8
 RoxygenNote: 7.3.2
