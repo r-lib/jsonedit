@@ -23,13 +23,13 @@ formatting_options(
 
 \item{...}{These dots are for future extensions and must be empty.}
 
-\item{formatting_options}{The result of [formatting_options()]. If
-`NULL`, a default set of options are used.}
+\item{formatting_options}{The result of \code{\link[=formatting_options]{formatting_options()}}. If
+\code{NULL}, a default set of options are used.}
 
 \item{file}{Path to file on disk. File must exist.}
 
 \item{tab_size}{The number of spaces to use to indicate a single tab when
-`insert_spaces` is `TRUE`.}
+\code{insert_spaces} is \code{TRUE}.}
 
 \item{insert_spaces}{Whether to use spaces or tabs for indentation.}
 

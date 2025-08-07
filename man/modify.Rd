@@ -31,36 +31,36 @@ modification_options(formatting_options = NULL, is_array_insertion = FALSE)
 \item{text}{A single string containing JSON to modify.}
 
 \item{path}{Either:
+\itemize{
+\item A character vector representing a path to a JSON element by name, i.e.
+\code{c("[r]", "editor.formatOnSave")}.
+\item A list of strings or numbers representing a path to a JSON element by
+name and position, i.e. \code{list("[r]", "editor.rulers", 2)}.
+}
 
-  - A character vector representing a path to a JSON element by name, i.e.
-   `c("[r]", "editor.formatOnSave")`.
+Numeric positions are specified as positive integers and are only
+applicable for arrays. \code{-1} is specially recognized as a request to
+\emph{insert} at the end of an array.}
 
-  - A list of strings or numbers representing a path to a JSON element by
-    name and position, i.e. `list("[r]", "editor.rulers", 2)`.
-
-  Numeric positions are specified as positive integers and are only
-  applicable for arrays. `-1` is specially recognized as a request to
-  _insert_ at the end of an array.}
-
-\item{value}{New value. Wrap in [V8::JS()] to specify literal JavaScript
-value. Use `NULL` to delete the field.}
+\item{value}{New value. Wrap in \code{\link[V8:JS]{V8::JS()}} to specify literal JavaScript
+value. Use \code{NULL} to delete the field.}
 
 \item{...}{These dots are for future extensions and must be empty.}
 
-\item{parse_options}{The result of [parse_options()]. If `NULL`, a default
+\item{parse_options}{The result of \code{\link[=parse_options]{parse_options()}}. If \code{NULL}, a default
 set of options are used.}
 
-\item{modification_options}{The result of [modification_options()]. If
-`NULL`, a default set of options are used.}
+\item{modification_options}{The result of \code{\link[=modification_options]{modification_options()}}. If
+\code{NULL}, a default set of options are used.}
 
 \item{file}{Path to file on disk. File must exist.}
 
-\item{formatting_options}{The result of a call to [formatting_options()]. If
-`NULL`, a default set of options are used.}
+\item{formatting_options}{The result of a call to \code{\link[=formatting_options]{formatting_options()}}. If
+\code{NULL}, a default set of options are used.}
 
 \item{is_array_insertion}{Whether or not to treat the change as an
-_insertion_ at the specified `path` rather than a _modification_ at that
-`path`. Only applicable for arrays.}
+\emph{insertion} at the specified \code{path} rather than a \emph{modification} at that
+\code{path}. Only applicable for arrays.}
 }
 \description{
 Set or delete fields in a JSON file or string while retaining comments
