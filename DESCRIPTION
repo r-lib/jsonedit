@@ -2,8 +2,10 @@ Package: jsonedit
 Type: Package
 Title: Whitespace Preserving JSON Editor
 Version: 0.1.0
-Authors@R: person("Jeroen", "Ooms", email = "jeroenooms@gmail.com",
-  role = c("aut", "cre"))
+Authors@R: c(
+    person("Davis", "Vaughan", , "davis@posit.co", role = c("aut", "cre")),
+    person("Jeroen", "Ooms", email = "jeroenooms@gmail.com", role = "aut"),
+    person("Microsoft Corporation", role = "cph", comment = "jsonc-parser library"))
 Description: Bindings to `node-jsonc-parser` to modify or format JSON files while
   retaining comments and whitespace.
 License: MIT + file LICENSE

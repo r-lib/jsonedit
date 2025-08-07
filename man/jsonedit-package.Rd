@@ -9,7 +9,17 @@
 Bindings to `node-jsonc-parser` to modify or format JSON files while retaining comments and whitespace.
 }
 \author{
-\strong{Maintainer}: Jeroen Ooms \email{jeroenooms@gmail.com}
+\strong{Maintainer}: Davis Vaughan \email{davis@posit.co}
+
+Authors:
+\itemize{
+  \item Jeroen Ooms \email{jeroenooms@gmail.com}
+}
+
+Other contributors:
+\itemize{
+  \item Microsoft Corporation (jsonc-parser library) [copyright holder]
+}
 
 }
 \keyword{internal}
