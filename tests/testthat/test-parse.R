@@ -11,6 +11,14 @@ test_that("works outside of a base object `{`", {
   expect_identical(text_parse("[1,true]"), list(1L, TRUE))
 })
 
+test_that("`null` converts correctly", {
+  expect_identical(text_parse("null"), NULL)
+  expect_identical(text_parse('[null]'), list(NULL))
+  expect_identical(text_parse('[null, null]'), list(NULL, NULL))
+  expect_identical(text_parse('[null, 1, null]'), list(NULL, 1L, NULL))
+  expect_identical(text_parse('{"a": null}'), list(a = NULL))
+})
+
 test_that("works with objects", {
   text <- '
   {
