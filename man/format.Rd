@@ -33,7 +33,9 @@ formatting_options(
 
 \item{insert_spaces}{Whether to use spaces or tabs for indentation.}
 
-\item{eol}{The character used for the end of a line.}
+\item{eol}{The character used for the end of a line. This is only applicable
+when the text doesn't already contain an existing line ending, i.e. an
+empty string or a string spanning a single line.}
 
 \item{insert_final_newline}{Whether or not to insert a final newline.}
 }

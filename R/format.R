@@ -49,7 +49,9 @@ file_format <- function(file, ..., formatting_options = NULL) {
 #'
 #' @param insert_spaces Whether to use spaces or tabs for indentation.
 #'
-#' @param eol The character used for the end of a line.
+#' @param eol The character used for the end of a line. This is only applicable
+#'   when the text doesn't already contain an existing line ending, i.e. an
+#'   empty string or a string spanning a single line.
 #'
 #' @param insert_final_newline Whether or not to insert a final newline.
 #'
