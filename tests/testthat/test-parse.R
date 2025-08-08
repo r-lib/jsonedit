@@ -7,7 +7,8 @@ test_that("works outside of a base object `{`", {
   expect_identical(text_parse("1"), 1L)
   expect_identical(text_parse("1.5"), 1.5)
   expect_identical(text_parse("true"), TRUE)
-  expect_identical(text_parse("[1,2]"), c(1L, 2L))
+  expect_identical(text_parse("[1,2]"), list(1L, 2L))
+  expect_identical(text_parse("[1,true]"), list(1L, TRUE))
 })
 
 test_that("works with objects", {
@@ -34,10 +35,10 @@ test_that("works with array as property value", {
   '
   expect_identical(
     text_parse(text),
-    list(a = 1:2)
+    list(a = list(1L, 2L))
   )
 
-  # Heterogeneous forced to homogenous character
+  # Heterogeneous
   text <- '
   {
     "a": [1, "2"]
@@ -45,11 +46,11 @@ test_that("works with array as property value", {
   '
   expect_identical(
     text_parse(text),
-    list(a = c("1", "2"))
+    list(a = list(1L, "2"))
   )
 })
 
-test_that("works with homogenous array of array as property value", {
+test_that("works with array of array as property value", {
   text <- '
   {
     "a": [[1], [2]]
@@ -57,7 +58,7 @@ test_that("works with homogenous array of array as property value", {
   '
   expect_identical(
     text_parse(text),
-    list(a = matrix(1:2, nrow = 2))
+    list(a = list(list(1L), list(2L)))
   )
 
   text <- '
@@ -67,11 +68,21 @@ test_that("works with homogenous array of array as property value", {
   '
   expect_identical(
     text_parse(text),
-    list(a = matrix(1:4, nrow = 2, byrow = TRUE))
+    list(a = list(list(1L, 2L), list(3L, 4L)))
   )
 
-  # This is treated as homogeneous by jsonlite
-  # (all same lengths, common type of character)
+  # Mixed types are allowed in JSON!
+  # This is one big reason we don't simplify!
+  text <- '
+  {
+    "a": [[1,"2"], [true,4]]
+  }
+  '
+  expect_identical(
+    text_parse(text),
+    list(a = list(list(1L, "2"), list(TRUE, 4L)))
+  )
+
   text <- '
   {
     "a": [["a"], [1]]
@@ -79,12 +90,12 @@ test_that("works with homogenous array of array as property value", {
   '
   expect_identical(
     text_parse(text),
-    list(a = matrix(c("a", "1"), nrow = 2, byrow = TRUE))
+    list(a = list(list("a"), list(1L)))
   )
-})
 
-test_that("works with heterogenous array of array as property value", {
-  # Different lengths force list output
+  # This is another reason we don't try and simplify.
+  # If the lengths were the same jsonlite simplifies to a matrix,
+  # but if they aren't we'd get a list. That's hard to program around.
   text <- '
   {
     "a": [[1], [2, 3]]
@@ -92,7 +103,7 @@ test_that("works with heterogenous array of array as property value", {
   '
   expect_identical(
     text_parse(text),
-    list(a = list(1L, 2:3))
+    list(a = list(list(1L), list(2L, 3L)))
   )
 })
 
