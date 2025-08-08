@@ -1,22 +1,25 @@
-function ffi_text_modify(text, path, value, modification_options){
-  var edit_result = jsonc.modify(text, path, value, modification_options);
-  return jsonc.applyEdits(text, edit_result);
-}
-
-function ffi_text_format(text, formatting_options){
-  var edit_result = jsonc.format(text, undefined, formatting_options);
-  return jsonc.applyEdits(text, edit_result);
-}
-
-function ffi_parse_errors(text, parse_options){
+function ffi_text_parse_errors(text, parse_options) {
   const errors = [];
   jsonc.parseTree(text, errors, parse_options);
   return errors;
 }
 
-function ffi_text_paths(json, path, parse_options) {
+function ffi_text_parse(text, parse_options) {
   const errors = [];
-  const root = jsonc.parseTree(json, errors, parse_options);
+  const root = jsonc.parseTree(text, errors, parse_options);
+  if (errors.length > 0) {
+    throw new Error("Internal error. Expected no parse errors.");
+  }
+  if (root) {
+    return get_node_value(root);
+  } else {
+    return null;
+  }
+}
+
+function ffi_text_parse_at_path(text, path, parse_options) {
+  const errors = [];
+  const root = jsonc.parseTree(text, errors, parse_options);
   if (errors.length > 0) {
     throw new Error("Internal error. Expected no parse errors.");
   }

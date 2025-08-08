@@ -1,22 +1,3 @@
-check_and_normalize_list_of_paths <- function(
-  x,
-  ...,
-  arg = caller_arg(x),
-  call = caller_env()
-) {
-  check_list(x)
-
-  for (i in seq_along(x)) {
-    x[[i]] <- check_and_normalize_path(
-      x[[i]],
-      arg = paste0(arg, "[[", i, "]]"),
-      call = call
-    )
-  }
-
-  x
-}
-
 check_and_normalize_path <- function(
   x,
   ...,

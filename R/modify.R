@@ -104,7 +104,7 @@ text_modify <- function(
   #   - In theory not fine, as this logs an error when the file is empty.
   #     But the parser is "resilient" and recovers easily from this, so
   #     it ends up not being an issue
-  check_no_parse_errors("modify", text, parse_options = parse_options)
+  check_no_text_parse_errors("modify", text, parse_options = parse_options)
 
   if (is.null(value)) {
     value <- V8::JS('undefined')
