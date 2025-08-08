@@ -26,6 +26,7 @@ test_that("works with objects", {
 })
 
 test_that("works with array as property value", {
+  # Homogenous
   text <- '
   {
     "a": [1, 2]
@@ -34,6 +35,17 @@ test_that("works with array as property value", {
   expect_identical(
     text_parse(text),
     list(a = 1:2)
+  )
+
+  # Heterogeneous forced to homogenous character
+  text <- '
+  {
+    "a": [1, "2"]
+  }
+  '
+  expect_identical(
+    text_parse(text),
+    list(a = c("1", "2"))
   )
 })
 
