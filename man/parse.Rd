@@ -80,7 +80,7 @@ parse_options <- parse_options(allow_comments = FALSE)
 try(text_parse(text, parse_options = parse_options))
 
 # Try to parse the JSON, but trailing commas aren't allowed!
-parse_options <- parse_options(allow_trailing_commas = FALSE)
+parse_options <- parse_options(allow_trailing_comma = FALSE)
 try(text_parse(text, parse_options = parse_options))
 
 # Parse only a subset of the JSON
