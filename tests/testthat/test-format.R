@@ -1,3 +1,17 @@
+test_that("formatting retains comments", {
+  text <- '
+  {
+    // a comment
+
+  "a":1, // another one
+    "b": {
+      "c":2
+    }
+  } // trailing
+  '
+  expect_snapshot(cat(text_format(text)))
+})
+
 test_that("`eol` only applies when we don't know the eol in `text`", {
   formatting_options <- formatting_options(eol = "\r\n")
 
