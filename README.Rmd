@@ -1,0 +1,92 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# jsonedit
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+R bindings to [node-jsonc-parser](https://github.com/microsoft/node-jsonc-parser) to modify or format JSON files while retaining comments.
+
+## Installation
+
+You can install the development version of jsonedit like so:
+
+``` r
+pak::pak("r-lib/jsonedit")
+```
+
+## Example
+
+```{r}
+library(jsonedit)
+
+text <- '
+{
+  "[r]": {
+    // Important comment
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "Posit.air-vscode"
+  },
+  "files.trimFinalNewlines": true,
+  "editor.rulers": [
+    80,
+    100
+  ], // A trailing comma
+}
+'
+```
+
+Parse an entire file worth of text with `text_parse()` or `file_parse()`:
+
+```{r}
+text_parse(text)
+```
+
+Parse a target JSON path with `text_parse_at_path()` or `file_parse_at_path()`:
+
+```{r}
+text_parse_at_path(text, c("[r]", "editor.formatOnSave"))
+
+# The 2nd ruler in the array
+text_parse_at_path(text, list("editor.rulers", 2))
+```
+
+Modify a JSON file, retaining comments, using `text_modify()` and `file_modify()`:
+
+```{r}
+# A new field
+cat(text_modify(text, "new", 1))
+
+# Modify an existing path, retaining comments
+cat(text_modify(text, c("[r]", "editor.formatOnSave"), FALSE))
+
+# Modify an array by position
+
+# Replacement:
+cat(text_modify(text, list("editor.rulers", 2), 20))
+
+# Insertion:
+options <- modification_options(is_array_insertion = TRUE)
+cat(text_modify(
+  text,
+  list("editor.rulers", 2),
+  20,
+  modification_options = options
+))
+
+# Insertion at back (when you don't know the number of existing elements)
+cat(text_modify(text, list("editor.rulers", -1), 20))
+```
