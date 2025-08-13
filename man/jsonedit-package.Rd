@@ -4,9 +4,9 @@
 \name{jsonedit-package}
 \alias{jsonedit}
 \alias{jsonedit-package}
-\title{jsonedit: Whitespace Preserving JSON Editor}
+\title{jsonedit: JSON Parsing and Modification Utilities}
 \description{
-Bindings to `node-jsonc-parser` to modify or format JSON files while retaining comments and whitespace.
+Bindings to 'node-jsonc-parser' to parse, format, and modify JSON files while retaining comments.
 }
 \author{
 \strong{Maintainer}: Davis Vaughan \email{davis@posit.co}
@@ -18,7 +18,7 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item Microsoft Corporation (jsonc-parser library) [copyright holder]
+  \item Microsoft Corporation (node-jsonc-parser library) [copyright holder]
 }
 
 }
