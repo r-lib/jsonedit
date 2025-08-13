@@ -115,6 +115,52 @@ test_that("works with array of array as property value", {
   )
 })
 
+test_that("error messaging is reasonably helpful", {
+  text <- trimws(
+    '
+{
+  "a" 1
+}
+    '
+  )
+  expect_snapshot(error = TRUE, text_parse(text))
+
+  text <- trimws(
+    '
+{
+  "a": ]
+}
+    '
+  )
+  expect_snapshot(error = TRUE, text_parse(text))
+
+  text <- trimws(
+    '
+{
+  "a": [
+    1,
+    2,
+    b"
+  ]
+}
+    '
+  )
+  expect_snapshot(error = TRUE, text_parse(text))
+
+  text <- trimws(
+    '
+{
+  "a": [
+    b",
+    2,
+    3
+  ]
+}
+    '
+  )
+  expect_snapshot(error = TRUE, text_parse(text))
+})
+
 test_that("`allow_comments` works", {
   options <- parse_options(allow_comments = FALSE)
 
