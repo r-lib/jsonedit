@@ -47,7 +47,11 @@ file_format <- function(file, ..., formatting_options = NULL) {
 #' @param indent_width The number of spaces to use to indicate a single indent
 #'   when `indent_style = "space"`.
 #'
-#' @param insert_spaces Whether to use spaces or tabs for indentation.
+#' @param indent_style The style of indentation to use. Either:
+#'
+#'   - `"space"` for spaces.
+#'
+#'   - `"tab"` for tabs.
 #'
 #' @param eol The character used for the end of a line. This is only applicable
 #'   when the text doesn't already contain an existing line ending, i.e. an
@@ -58,14 +62,16 @@ file_format <- function(file, ..., formatting_options = NULL) {
 #' @export
 formatting_options <- function(
   indent_width = 4L,
-  insert_spaces = TRUE,
+  indent_style = "space",
   eol = "\n",
   insert_final_newline = TRUE
 ) {
   check_number_whole(indent_width)
-  check_bool(insert_spaces)
   check_string(eol)
   check_bool(insert_final_newline)
+
+  indent_style <- arg_match0(indent_style, c("space", "tab"))
+  insert_spaces <- indent_style == "space"
 
   list(
     tabSize = indent_width,

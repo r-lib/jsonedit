@@ -38,8 +38,8 @@ test_that("`indent_width` works", {
   )
 })
 
-test_that("`insert_spaces` works", {
-  formatting_options <- formatting_options(insert_spaces = FALSE)
+test_that("`indent_style` works", {
+  formatting_options <- formatting_options(indent_style = "tab")
 
   text <- '{"a":1}\n'
   expect_identical(

@@ -13,7 +13,7 @@ file_format(file, ..., formatting_options = NULL)
 
 formatting_options(
   indent_width = 4L,
-  insert_spaces = TRUE,
+  indent_style = "space",
   eol = "\\n",
   insert_final_newline = TRUE
 )
@@ -31,7 +31,11 @@ formatting_options(
 \item{indent_width}{The number of spaces to use to indicate a single indent
 when \code{indent_style = "space"}.}
 
-\item{insert_spaces}{Whether to use spaces or tabs for indentation.}
+\item{indent_style}{The style of indentation to use. Either:
+\itemize{
+\item \code{"space"} for spaces.
+\item \code{"tab"} for tabs.
+}}
 
 \item{eol}{The character used for the end of a line. This is only applicable
 when the text doesn't already contain an existing line ending, i.e. an
