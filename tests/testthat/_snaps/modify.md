@@ -31,6 +31,90 @@
           ]
       }
 
+# modification retains comments
+
+    Code
+      cat(text_modify(text, "foo", 0))
+    Output
+      
+      {
+          // a
+          "foo": 0, // b
+          "bar": [
+              // c
+              1,
+              2, // d
+              // e
+              3
+          ] // f
+          // g
+      }
+        
+
+---
+
+    Code
+      options <- modification_options(is_array_insertion = FALSE)
+      cat(text_modify(text, list("bar", 2), 0, modification_options = options))
+    Output
+      
+      {
+          // a
+          "foo": 1, // b
+          "bar": [
+              // c
+              1,
+              0, // d
+              // e
+              3
+          ] // f
+          // g
+      }
+        
+
+---
+
+    Code
+      options <- modification_options(is_array_insertion = TRUE)
+      cat(text_modify(text, list("bar", 2), 0, modification_options = options))
+    Output
+      
+      {
+          // a
+          "foo": 1, // b
+          "bar": [
+              // c
+              1,
+              0,
+              2, // d
+              // e
+              3
+          ] // f
+          // g
+      }
+        
+
+---
+
+    Code
+      cat(text_modify(text, "new", 0))
+    Output
+      
+      {
+          // a
+          "foo": 1, // b
+          "bar": [
+              // c
+              1,
+              2, // d
+              // e
+              3
+          ],
+          "new": 0 // f
+          // g
+      }
+        
+
 # can't modify non-object non-array parents
 
     Code
