@@ -14,6 +14,7 @@ License: MIT + file LICENSE
 URL: https://jsonedit.r-lib.org
 Imports:
     cli,
+    jsonlite,
     rlang (>= 1.1.0),
     V8
 Suggests:
