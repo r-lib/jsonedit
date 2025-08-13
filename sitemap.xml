@@ -1,13 +1,13 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
-<url><loc>/404.html</loc></url>
-<url><loc>/LICENSE-text.html</loc></url>
-<url><loc>/LICENSE.html</loc></url>
-<url><loc>/authors.html</loc></url>
-<url><loc>/index.html</loc></url>
-<url><loc>/reference/format.html</loc></url>
-<url><loc>/reference/index.html</loc></url>
-<url><loc>/reference/jsonedit-package.html</loc></url>
-<url><loc>/reference/modify.html</loc></url>
-<url><loc>/reference/parse.html</loc></url>
+<url><loc>https://jsonedit.r-lib.org/404.html</loc></url>
+<url><loc>https://jsonedit.r-lib.org/LICENSE-text.html</loc></url>
+<url><loc>https://jsonedit.r-lib.org/LICENSE.html</loc></url>
+<url><loc>https://jsonedit.r-lib.org/authors.html</loc></url>
+<url><loc>https://jsonedit.r-lib.org/index.html</loc></url>
+<url><loc>https://jsonedit.r-lib.org/reference/format.html</loc></url>
+<url><loc>https://jsonedit.r-lib.org/reference/index.html</loc></url>
+<url><loc>https://jsonedit.r-lib.org/reference/jsonedit-package.html</loc></url>
+<url><loc>https://jsonedit.r-lib.org/reference/modify.html</loc></url>
+<url><loc>https://jsonedit.r-lib.org/reference/parse.html</loc></url>
 </urlset>
 
