@@ -11,6 +11,7 @@ Authors@R: c(
 Description: Bindings to 'node-jsonc-parser' to parse, format, and modify
     JSON files while retaining comments.
 License: MIT + file LICENSE
+URL: https://jsonedit.r-lib.org
 Imports:
     cli,
     rlang (>= 1.1.0),

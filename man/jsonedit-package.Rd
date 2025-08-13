@@ -8,6 +8,13 @@
 \description{
 Bindings to 'node-jsonc-parser' to parse, format, and modify JSON files while retaining comments.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://jsonedit.r-lib.org}
+}
+
+}
 \author{
 \strong{Maintainer}: Davis Vaughan \email{davis@posit.co}
 
