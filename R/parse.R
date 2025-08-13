@@ -78,8 +78,15 @@ text_parse <- function(text, ..., parse_options = NULL) {
   check_string(text)
   parse_options <- parse_options %||% parse_options()
   check_no_text_parse_errors("parse", text, parse_options = parse_options)
-  out <- js_call(jsonc, "ffi_text_parse", text, parse_options)
-  out
+
+  # In particular, JSON arrays can have mixed types like `[1, "a"]` and we
+  # don't want those to be forcibly simplified to `c("1", "a")` on the way in.
+  #
+  # We don't need this for every function, but when we parse a JSON file
+  # we want predictable output, and for us that means no simplification
+  simplify <- FALSE
+
+  jsonc$call("ffi_text_parse", text, parse_options, simplify = simplify)
 }
 
 #' @rdname parse
@@ -98,8 +105,13 @@ text_parse_at_path <- function(text, path, ..., parse_options = NULL) {
   path <- check_and_normalize_path(path)
   parse_options <- parse_options %||% parse_options()
   check_no_text_parse_errors("parse", text, parse_options = parse_options)
-  out <- js_call(jsonc, "ffi_text_parse_at_path", text, path, parse_options)
-  out
+  jsonc$call(
+    "ffi_text_parse_at_path",
+    text,
+    path,
+    parse_options,
+    simplify = FALSE
+  )
 }
 
 #' @rdname parse
@@ -141,7 +153,7 @@ text_parse_errors <- function(text, ..., parse_options = NULL) {
   check_dots_empty0(...)
   check_string(text, .internal = TRUE)
   parse_options <- parse_options %||% parse_options()
-  js_call(jsonc, "ffi_text_parse_errors", text, parse_options)
+  jsonc$call("ffi_text_parse_errors", text, parse_options, simplify = FALSE)
 }
 
 check_no_text_parse_errors <- function(
@@ -252,47 +264,4 @@ error_code_to_error_message <- function(code) {
   }
 
   lookup[[code]]
-}
-
-# Call a JavaScript function
-#
-# This is `jsonc$call()` but with two changes:
-# - A `NULL` returns visibly
-# - The conversion from JSON does NO simplification
-#
-# In particular, JSON arrays can have mixed types like `[1, "a"]` and we
-# don't want those to be forcibly simplified to `c("1", "a")` on the way in.
-#
-# We don't need this for every function, but when we parse a JSON file
-# we want predictable output, and for us that means no simplification
-js_call <- function(context, fun, ...) {
-  args <- list(...)
-
-  if (!is.null(names(args))) {
-    stop("Named arguments are not supported in JavaScript.")
-  }
-
-  args <- vapply(
-    args,
-    function(x) jsonlite::toJSON(x, auto_unbox = TRUE),
-    character(1)
-  )
-
-  args <- paste(args, collapse = ",")
-  src <- paste0("(", fun, ")(", args, ");")
-
-  out <- context$eval(src, serialize = TRUE, await = FALSE)
-
-  if (is.null(out)) {
-    # A JavaScript `undefined` becomes `NULL` and `fromJSON()` doesn't want that
-    NULL
-  } else {
-    # Otherwise, assume JSON but DON'T SIMPLIFY for stability and predictability
-    jsonlite::fromJSON(
-      out,
-      simplifyVector = FALSE,
-      simplifyDataFrame = FALSE,
-      simplifyMatrix = FALSE
-    )
-  }
 }

@@ -3,6 +3,25 @@ test_that("empty file parsing works", {
   expect_identical(text_parse_at_path("", "a"), NULL)
 })
 
+test_that("Output is always returned visibly", {
+  expect_identical(withVisible(text_parse("{}"))$visible, TRUE)
+  expect_identical(
+    withVisible(text_parse_at_path('{ "a": 1 }', "a"))$visible,
+    TRUE
+  )
+
+  # These must return visible `NULL`
+  expect_identical(withVisible(text_parse(""))$visible, TRUE)
+  expect_identical(withVisible(text_parse_at_path("", "a"))$visible, TRUE)
+
+  # These must return visible `NULL`
+  expect_identical(withVisible(text_parse("null"))$visible, TRUE)
+  expect_identical(
+    withVisible(text_parse_at_path('{ "a": null }', "a"))$visible,
+    TRUE
+  )
+})
+
 test_that("works outside of a base object `{`", {
   expect_identical(text_parse("1"), 1L)
   expect_identical(text_parse("1.5"), 1.5)
