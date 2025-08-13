@@ -104,7 +104,7 @@ cat(text_modify(
   list("foo", 3),
   0,
   modification_options = modification_options(
-    formatting_options = formatting_options(tab_size = 2),
+    formatting_options = formatting_options(indent_width = 2),
     is_array_insertion = TRUE
   )
 ))

@@ -15,7 +15,7 @@
 #' text <- '{"foo":[1,2]}'
 #' cat(text_format(text))
 #'
-#' formatting_options <- formatting_options(tab_size = 2)
+#' formatting_options <- formatting_options(indent_width = 2)
 #' cat(text_format(text, formatting_options = formatting_options))
 NULL
 
@@ -44,8 +44,8 @@ file_format <- function(file, ..., formatting_options = NULL) {
 
 #' @rdname format
 #'
-#' @param tab_size The number of spaces to use to indicate a single tab when
-#'   `insert_spaces` is `TRUE`.
+#' @param indent_width The number of spaces to use to indicate a single indent
+#'   when `indent_style = "space"`.
 #'
 #' @param insert_spaces Whether to use spaces or tabs for indentation.
 #'
@@ -57,18 +57,18 @@ file_format <- function(file, ..., formatting_options = NULL) {
 #'
 #' @export
 formatting_options <- function(
-  tab_size = 4L,
+  indent_width = 4L,
   insert_spaces = TRUE,
   eol = "\n",
   insert_final_newline = TRUE
 ) {
-  check_number_whole(tab_size)
+  check_number_whole(indent_width)
   check_bool(insert_spaces)
   check_string(eol)
   check_bool(insert_final_newline)
 
   list(
-    tabSize = tab_size,
+    tabSize = indent_width,
     insertSpaces = insert_spaces,
     eol = eol,
     insertFinalNewline = insert_final_newline

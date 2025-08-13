@@ -28,8 +28,8 @@ test_that("`eol` only applies when we don't know the eol in `text`", {
   )
 })
 
-test_that("`tab_size` works", {
-  formatting_options <- formatting_options(tab_size = 2)
+test_that("`indent_width` works", {
+  formatting_options <- formatting_options(indent_width = 2)
 
   text <- '{"a":1}\n'
   expect_identical(

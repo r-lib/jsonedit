@@ -12,7 +12,7 @@ text_format(text, ..., formatting_options = NULL)
 file_format(file, ..., formatting_options = NULL)
 
 formatting_options(
-  tab_size = 4L,
+  indent_width = 4L,
   insert_spaces = TRUE,
   eol = "\\n",
   insert_final_newline = TRUE
@@ -28,8 +28,8 @@ formatting_options(
 
 \item{file}{Path to file on disk. File must exist.}
 
-\item{tab_size}{The number of spaces to use to indicate a single tab when
-\code{insert_spaces} is \code{TRUE}.}
+\item{indent_width}{The number of spaces to use to indicate a single indent
+when \code{indent_style = "space"}.}
 
 \item{insert_spaces}{Whether to use spaces or tabs for indentation.}
 
@@ -46,6 +46,6 @@ Format a JSON file or string, preserving comments.
 text <- '{"foo":[1,2]}'
 cat(text_format(text))
 
-formatting_options <- formatting_options(tab_size = 2)
+formatting_options <- formatting_options(indent_width = 2)
 cat(text_format(text, formatting_options = formatting_options))
 }
