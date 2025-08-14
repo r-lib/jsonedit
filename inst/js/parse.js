@@ -29,7 +29,7 @@ function ffi_text_parse_at_path(text, path, parse_options) {
   if (node) {
     return get_node_value(node);
   } else {
-    return undefined;
+    return null;
   }
 }
 
