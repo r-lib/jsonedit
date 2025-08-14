@@ -15,7 +15,7 @@ URL: https://jsonedit.r-lib.org
 Imports:
     cli,
     rlang (>= 1.1.0),
-    V8 (>= 6.0.5)
+    V8 (>= 6.0.5.9000)
 Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
