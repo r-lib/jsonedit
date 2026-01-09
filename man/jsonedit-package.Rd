@@ -11,16 +11,16 @@ Bindings to 'node-jsonc-parser' to parse, format, and modify JSON files while re
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://jsonedit.r-lib.org}
+  \item \url{https://github.com/r-lib/jsonedit}
 }
 
 }
 \author{
-\strong{Maintainer}: Davis Vaughan \email{davis@posit.co}
+\strong{Maintainer}: Jeroen Ooms \email{jeroenooms@gmail.com}
 
 Authors:
 \itemize{
-  \item Jeroen Ooms \email{jeroenooms@gmail.com}
+  \item Davis Vaughan \email{davis@posit.co}
 }
 
 Other contributors:

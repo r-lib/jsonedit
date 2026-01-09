@@ -1,17 +1,16 @@
 Type: Package
 Package: jsonedit
 Title: JSON Parsing and Modification Utilities
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: c(
-    person("Davis", "Vaughan", , "davis@posit.co", role = c("aut", "cre")),
-    person("Jeroen", "Ooms", , "jeroenooms@gmail.com", role = "aut"),
+    person("Davis", "Vaughan", , "davis@posit.co", role = "aut"),
+    person("Jeroen", "Ooms", , "jeroenooms@gmail.com", role = c("aut", "cre")),
     person("Microsoft Corporation", role = "cph",
-           comment = "node-jsonc-parser library")
-  )
+           comment = "node-jsonc-parser library"))
 Description: Bindings to 'node-jsonc-parser' to parse, format, and modify
     JSON files while retaining comments.
 License: MIT + file LICENSE
-URL: https://jsonedit.r-lib.org
+URL: https://github.com/r-lib/jsonedit
 Imports:
     cli,
     rlang (>= 1.1.0),
@@ -21,4 +20,4 @@ Suggests:
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
