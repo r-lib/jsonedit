@@ -7,7 +7,7 @@ while retaining comments.
 
 Useful links:
 
-- <https://jsonedit.r-lib.org>
+- <https://github.com/r-lib/jsonedit>
 
 ## Author
 
